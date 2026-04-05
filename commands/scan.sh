@@ -5,14 +5,28 @@ set -e
 MYDIR="$HOME/git/myClaude"
 source "$MYDIR/myClaude.conf"
 
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    echo "Usage: myClaude scan"
+    echo ""
+    echo "Scans GIT_ROOT for repos and reports full status plus changes since last scan."
+    echo ""
+    echo "Columns:"
+    echo "  REPO       Repository directory name"
+    echo "  CLAUDE.MD  missing    = no CLAUDE.md file found"
+    echo "             not linked = CLAUDE.md exists but is not a symlink into myClaude"
+    echo "             ok         = CLAUDE.md is properly linked"
+    echo "  FLAGS      excluded   = marked do-not-include, ignored by myClaude commands"
+    exit 0
+fi
+
 STATE_DIR="$MYDIR"
 CURRENT="$STATE_DIR/.state.json"
 PREVIOUS="$STATE_DIR/.state.prev.json"
+TMPFILE=$(mktemp)
 
 scan() {
-    local result="{"
-    result+='"repos":['
-    first=1
+    local result='{"repos":['
+    local first=1
     for dir in "$GIT_ROOT"/*/; do
         [[ -d "$dir/.git" ]] || continue
         name=$(basename "$dir")
@@ -32,62 +46,65 @@ scan() {
     echo "$result"
 }
 
+print_repo_list() {
+    local file="$1"
+    (
+        printf "REPO\tCLAUDE.MD\tFLAGS\n"
+        jq -r '.repos[] |
+            [
+                .name,
+                (if .has_claude == false then "missing"
+                 elif .is_linked == false then "not linked"
+                 else "ok"
+                 end),
+                (if .do_not_include then "excluded" else "" end)
+            ] | @tsv' "$file"
+    ) | column -t -s $'\t'
+}
+
 NEW_STATE=$(scan)
+echo "$NEW_STATE" > "$TMPFILE"
+
+echo "Repos:"
+print_repo_list "$TMPFILE"
 
 if [[ ! -f "$CURRENT" ]]; then
+    echo ""
     echo "First scan — no previous state to compare."
-    echo "$NEW_STATE" > "$CURRENT"
-    echo "$NEW_STATE" | python3 -c "
-import json,sys
-data=json.load(sys.stdin)
-for r in data['repos']:
-    flags=[]
-    if not r['has_claude']: flags.append('no CLAUDE.md')
-    if r['has_claude'] and not r['is_linked']: flags.append('not linked')
-    if r['do_not_include']: flags.append('do-not-include')
-    print(f\"  {r['name']}\" + (f\" ({', '.join(flags)})\" if flags else ''))
-"
+    cp "$TMPFILE" "$CURRENT"
+    rm "$TMPFILE"
     exit 0
 fi
 
 cp "$CURRENT" "$PREVIOUS"
 
-python3 - <<EOF
-import json
+ADDED=$(jq -r --slurpfile old "$PREVIOUS" '
+    .repos[].name as $n |
+    select([$old[0].repos[].name] | index($n) | not) |
+    $n' "$TMPFILE")
 
-with open('$PREVIOUS') as f:
-    old = {r['name']: r for r in json.load(f)['repos']}
-with open('/dev/stdin') as f:
-    new = {r['name']: r for r in json.load(f)['repos']}
+REMOVED=$(jq -r --slurpfile new "$TMPFILE" '
+    .repos[].name as $n |
+    select([$new[0].repos[].name] | index($n) | not) |
+    $n' "$PREVIOUS")
 
-added = [n for n in new if n not in old]
-removed = [n for n in old if n not in new]
-changed = [n for n in new if n in old and new[n] != old[n]]
+CHANGED=$(jq -r --slurpfile old "$PREVIOUS" '
+    .repos[] |
+    . as $new |
+    ($old[0].repos[] | select(.name == $new.name)) as $o |
+    select($new != $o) |
+    .name' "$TMPFILE")
 
-if added:
-    print('New repos:')
-    for n in added:
-        r = new[n]
-        flags = []
-        if not r['has_claude']: flags.append('no CLAUDE.md')
-        if r['has_claude'] and not r['is_linked']: flags.append('not linked')
-        if r['do_not_include']: flags.append('do-not-include')
-        print(f"  {n}" + (f" ({', '.join(flags)})" if flags else ''))
+echo ""
+echo "Run 'myClaude scan --help' for column descriptions."
+echo ""
+if [[ -n "$ADDED" || -n "$REMOVED" || -n "$CHANGED" ]]; then
+    [[ -n "$ADDED" ]]   && echo "New:     $ADDED"
+    [[ -n "$REMOVED" ]] && echo "Removed: $REMOVED"
+    [[ -n "$CHANGED" ]] && echo "Changed: $CHANGED"
+else
+    echo "No changes since last scan."
+fi
 
-if removed:
-    print('Removed repos:')
-    for n in removed:
-        print(f'  {n}')
-
-if changed:
-    print('Changed:')
-    for n in changed:
-        o, r = old[n], new[n]
-        diffs = [k for k in r if r[k] != o.get(k)]
-        print(f'  {n}: {", ".join(diffs)}')
-
-if not added and not removed and not changed:
-    print('No changes since last scan.')
-EOF <<< "$NEW_STATE"
-
-echo "$NEW_STATE" > "$CURRENT"
+cp "$TMPFILE" "$CURRENT"
+rm "$TMPFILE"

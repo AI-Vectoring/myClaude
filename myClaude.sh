@@ -17,6 +17,9 @@ case "$SUBCOMMAND" in
     setRoot)
         exec "$MYCLAUDE_HOME/commands/setRoot.sh" "$@"
         ;;
+    repair)
+        exec "$MYCLAUDE_HOME/commands/repair.sh" "$@"
+        ;;
     ""|-h|--help)
         echo "Usage: myClaude <command> [options]"
         echo ""
@@ -24,6 +27,7 @@ case "$SUBCOMMAND" in
         echo "  newRepo   Create a new GitHub repo with CLAUDE.md wired up"
         echo "  scan      Scan git root for repos and report changes since last scan"
         echo "  setRoot   Set the root directory where git repos are stored"
+        echo "  repair    Re-create missing or broken CLAUDE.md symlinks"
         echo ""
         echo "Run 'myClaude <command> --help' for command-specific help."
         ;;
