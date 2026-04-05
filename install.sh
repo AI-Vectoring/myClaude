@@ -22,9 +22,9 @@ sudo chmod +x /usr/local/bin/myClaude
 source "$CONF"
 mkdir -p "$GIT_ROOT"
 
-# Install Claude Code commands
-mkdir -p "$HOME/.claude/commands"
-ln -sf "$REPO_DIR/commands/refresh.md" "$HOME/.claude/commands/refresh.md"
+# Install Claude Code skills
+mkdir -p "$HOME/.claude/skills/refresh"
+ln -sf "$REPO_DIR/skills/refresh/SKILL.md" "$HOME/.claude/skills/refresh/SKILL.md"
 
 echo "myClaude installed."
 echo "  dispatcher: /usr/local/bin/myClaude"
