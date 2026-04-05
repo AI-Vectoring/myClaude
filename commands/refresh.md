@@ -1,3 +1,7 @@
+---
+description: "Re-read CLAUDE.md rules and reaffirm them for this session"
+---
+
 Based on $ARGUMENTS, read and restate the rules from the following CLAUDE.md files, confirming you will follow them for the rest of this session:
 
 - no argument or "global": read ~/.claude/CLAUDE.md only
