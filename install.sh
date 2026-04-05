@@ -22,6 +22,10 @@ sudo chmod +x /usr/local/bin/myClaude
 source "$CONF"
 mkdir -p "$GIT_ROOT"
 
+# Install Claude Code commands
+mkdir -p "$HOME/.claude/commands"
+ln -sf "$REPO_DIR/commands/refresh.md" "$HOME/.claude/commands/refresh.md"
+
 echo "myClaude installed."
 echo "  dispatcher: /usr/local/bin/myClaude"
 echo "  home:       $REPO_DIR"
