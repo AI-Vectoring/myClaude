@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
+CONF="$REPO_DIR/myClaude.conf"
+
+# Update MYCLAUDE_HOME to actual repo location
+sed -i "s|^MYCLAUDE_HOME=.*|MYCLAUDE_HOME=\"$REPO_DIR\"|" "$CONF"
+
+# Install dispatcher
+sudo cp "$REPO_DIR/myClaude.sh" /usr/local/bin/myClaude
+sudo chmod +x /usr/local/bin/myClaude
+
+# Create GIT_ROOT if it doesn't exist
+source "$CONF"
+mkdir -p "$GIT_ROOT"
+
+echo "myClaude installed."
+echo "  dispatcher: /usr/local/bin/myClaude"
+echo "  home:       $REPO_DIR"
+echo "  git root:   $GIT_ROOT"
