@@ -1,2 +1,6 @@
 .state.json
 .state.prev.json
+CLAUDE.md
+myClaude.conf
+repos/*/CLAUDE.md
+!repos/example-repo/CLAUDE.md
