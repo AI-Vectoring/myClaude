@@ -1,6 +1,6 @@
 # Claude Code Permissions
 
-Claude Code's permission system is configured in `~/.claude/settings.json` under a `permissions` object. Changes take effect on the next session launch.
+Claude Code's permission system is configured in `~/.claude/settings.json` under a `permissions` object. Changes are hot-reloaded mid-session via the `ConfigChange` event — no restart required.
 
 ## Schema
 
@@ -65,6 +65,46 @@ Available modes: `default`, `plan`, `auto`, `dontAsk`, `bypassPermissions`, `acc
 
 - **`disableBypassPermissionsMode`**: set to `"disable"` to prevent bypass mode from being used
 - **`disableAutoMode`**: set to `"disable"` to prevent auto mode from being used
+
+## Editing Settings Safely
+
+/update-config is a skill that helps you modify Claude Code's settings.json configuration files.
+
+  What it does:
+
+  It guides safe edits to one of three settings files:
+
+  ┌─────────────────────────────┬────────────────────────────────────────┐
+  │            File             │                 Scope                  │
+  ├─────────────────────────────┼────────────────────────────────────────┤
+  │ ~/.claude/settings.json     │ Global — applies to all projects       │
+  ├─────────────────────────────┼────────────────────────────────────────┤
+  │ .claude/settings.json       │ Project — shared with team via git     │
+  ├─────────────────────────────┼────────────────────────────────────────┤
+  │ .claude/settings.local.json │ Local — personal overrides, gitignored │
+  └─────────────────────────────┴────────────────────────────────────────┘
+
+  What you can configure:
+
+  - Hooks — automated commands that fire on events like PostToolUse, PreCompact, Stop, etc. Example: auto-run prettier after every file edit, log all bash commands, run
+   tests after code changes.
+  - Permissions — allow or deny specific tool calls without prompting (e.g., Bash(git:*), Edit(.claude))
+  - Environment variables — inject env vars into every session
+  - Model — override the default model
+  - MCP servers — enable/disable specific servers
+  - Attribution — customize or remove commit/PR footers
+
+  The skill enforces safety:
+  - Always reads the existing file before writing (never clobbers your config)
+  - Merges new settings into existing arrays rather than replacing them
+  - Tests hook commands before writing them
+  - Validates JSON syntax after changes
+
+  Example use cases:
+  "auto-format my Python files with black after every edit"
+  "allow npm commands without prompting"
+  "log all bash commands I run to a file"
+  "set DEBUG=true for this project"
 
 ## Example: Minimal Safe Config
 
