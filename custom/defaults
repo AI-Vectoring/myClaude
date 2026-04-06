@@ -1,0 +1,1 @@
+includeCoAuthoredBy: false — disabled Claude's default Co-authored-by commit trailer; attribution belongs to the committing user only, not to the AI assistant.
