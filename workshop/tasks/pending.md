@@ -1,5 +1,5 @@
 # Pending Tasks
 
-- Implement status commands
+- Implement permissions commands
 - Implement memory
-- Implement status line
+- timezone seems wrong (on statusline)
