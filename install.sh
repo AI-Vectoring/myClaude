@@ -39,6 +39,9 @@ mkdir -p "$REPO_DIR/workshop/internal"
 mkdir -p "$HOME/.claude/skills/refresh"
 ln -sf "$REPO_DIR/custom/skills/refresh/SKILL.md" "$HOME/.claude/skills/refresh/SKILL.md"
 
+# Enable status line by default
+MYCLAUDE_HOME="$REPO_DIR" "$REPO_DIR/cli/statusline.sh" on
+
 if [[ "$DEV_MODE" == true ]]; then
     echo "myClaude dev setup complete."
     echo "  run from: $REPO_DIR/cli/myClaude.sh"

@@ -101,6 +101,28 @@ myClaude setRoot /home/user/projects
 
 ---
 
+## statusLine
+
+Enables or disables the Claude Code status line. The status line shows model name, context usage, rate limits, reset time, and token counts at the bottom of your terminal.
+
+```
+myClaude statusLine <on|off>
+```
+
+**What it does:**
+- `on` — writes the `statusLine` config into `~/.claude/settings.json`, pointing it at myClaude's status line script
+- `off` — removes the `statusLine` config from `~/.claude/settings.json`
+
+Enabled by default on install. Takes effect on the next Claude Code session.
+
+**Example:**
+```bash
+myClaude statusLine off   # disable
+myClaude statusLine on    # re-enable
+```
+
+---
+
 ## Excluding a repo
 
 To make myClaude ignore a repo across all commands:

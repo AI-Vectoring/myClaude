@@ -20,14 +20,18 @@ case "$SUBCOMMAND" in
     repair)
         exec "$MYCLAUDE_HOME/cli/repair.sh" "$@"
         ;;
+    statusLine)
+        exec "$MYCLAUDE_HOME/cli/statusline.sh" "$@"
+        ;;
     ""|-h|--help)
         echo "Usage: myClaude <command> [options]"
         echo ""
         echo "Commands:"
-        echo "  newRepo   Create a new GitHub repo with CLAUDE.md wired up"
-        echo "  scan      Scan git root for repos and report changes since last scan"
-        echo "  setRoot   Set the root directory where git repos are stored"
-        echo "  repair    Re-create missing or broken CLAUDE.md symlinks"
+        echo "  newRepo      Create a new GitHub repo with CLAUDE.md wired up"
+        echo "  scan         Scan git root for repos and report changes since last scan"
+        echo "  setRoot      Set the root directory where git repos are stored"
+        echo "  repair       Re-create missing or broken CLAUDE.md symlinks"
+        echo "  statusLine   Enable or disable the Claude Code status line"
         echo ""
         echo "Run 'myClaude <command> --help' for command-specific help."
         ;;
