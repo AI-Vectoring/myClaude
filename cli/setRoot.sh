@@ -2,7 +2,7 @@
 
 set -e
 
-CONF="$HOME/git/myClaude/myClaude.conf"
+CONF="$MYCLAUDE_HOME/myClaude.conf"
 
 if [[ -z "$1" || "$1" == "--help" || "$1" == "-h" ]]; then
     echo "Usage: myClaude setRoot <path>"

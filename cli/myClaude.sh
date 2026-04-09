@@ -2,23 +2,23 @@
 
 set -e
 
-source "$HOME/git/myClaude/myClaude.conf"
+source "__MYCLAUDE_CONF__"
 
 SUBCOMMAND="$1"
 shift || true
 
 case "$SUBCOMMAND" in
     newRepo)
-        exec "$MYCLAUDE_HOME/commands/newRepo.sh" "$@"
+        exec "$MYCLAUDE_HOME/cli/newRepo.sh" "$@"
         ;;
     scan)
-        exec "$MYCLAUDE_HOME/commands/scan.sh" "$@"
+        exec "$MYCLAUDE_HOME/cli/scan.sh" "$@"
         ;;
     setRoot)
-        exec "$MYCLAUDE_HOME/commands/setRoot.sh" "$@"
+        exec "$MYCLAUDE_HOME/cli/setRoot.sh" "$@"
         ;;
     repair)
-        exec "$MYCLAUDE_HOME/commands/repair.sh" "$@"
+        exec "$MYCLAUDE_HOME/cli/repair.sh" "$@"
         ;;
     ""|-h|--help)
         echo "Usage: myClaude <command> [options]"

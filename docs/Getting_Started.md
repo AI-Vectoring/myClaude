@@ -14,10 +14,26 @@ git clone git@github.com:AI-Vectoring/myClaude.git ~/git/myClaude
 ```
 
 The installer will:
+- Generate private config files from templates (if they don't exist)
 - Set `MYCLAUDE_HOME` in `myClaude.conf` to your repo location
 - Install `myClaude` to `/usr/local/bin/`
 - Install `jq` if not already present
-- Create `~/git/` if it doesn't exist
+- Create `~/git/` and internal directories if they don't exist
+- Symlink the `/refresh` skill into `~/.claude/skills/`
+
+### Developer mode
+
+If you're working on myClaude itself, use `--dev` to skip the system install (no sudo required):
+
+```bash
+~/git/myClaude/install.sh --dev
+```
+
+This sets up config and dependencies but doesn't copy anything to `/usr/local/bin/`. Run commands directly from the repo:
+
+```bash
+./cli/myClaude.sh scan
+```
 
 ## First scan
 

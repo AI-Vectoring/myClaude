@@ -2,8 +2,7 @@
 
 set -e
 
-MYDIR="$HOME/git/myClaude"
-source "$MYDIR/myClaude.conf"
+source "$MYCLAUDE_HOME/myClaude.conf"
 
 VISIBILITY="--private"
 
@@ -41,7 +40,7 @@ if [[ -z "$REPO_NAME" ]]; then
 fi
 
 REPO_DIR="$GIT_ROOT/$REPO_NAME"
-CLAUDE_DIR="$MYDIR/repos/$REPO_NAME"
+CLAUDE_DIR="$MYCLAUDE_HOME/custom/repos/$REPO_NAME"
 
 gh repo create "$REPO_NAME" "$VISIBILITY" --clone --clone-dir "$GIT_ROOT"
 

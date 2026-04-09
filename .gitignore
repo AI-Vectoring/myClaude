@@ -1,5 +1,5 @@
-.state.json
-.state.prev.json
+workshop/internal/.state.json
+workshop/internal/.state.prev.json
 CLAUDE.md
 myClaude.conf
 repos/*/CLAUDE.md

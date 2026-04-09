@@ -2,8 +2,7 @@
 
 set -e
 
-MYDIR="$HOME/git/myClaude"
-source "$MYDIR/myClaude.conf"
+source "$MYCLAUDE_HOME/myClaude.conf"
 
 if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     echo "Usage: myClaude repair"
@@ -22,9 +21,9 @@ for dir in "$GIT_ROOT"/*/; do
     name=$(basename "$dir")
 
     # Skip excluded repos
-    [[ -f "$MYDIR/.flags/$name/do-not-include" ]] && { ((SKIPPED++)); continue; }
+    [[ -f "$MYCLAUDE_HOME/.flags/$name/do-not-include" ]] && { ((SKIPPED++)); continue; }
 
-    CLAUDE_SRC="$MYDIR/repos/$name/CLAUDE.md"
+    CLAUDE_SRC="$MYCLAUDE_HOME/custom/repos/$name/CLAUDE.md"
     CLAUDE_LINK="$dir/CLAUDE.md"
 
     # Already a valid symlink pointing to the right place
@@ -34,9 +33,9 @@ for dir in "$GIT_ROOT"/*/; do
 
     # Create source in myClaude if missing
     if [[ ! -f "$CLAUDE_SRC" ]]; then
-        mkdir -p "$MYDIR/repos/$name"
+        mkdir -p "$MYCLAUDE_HOME/custom/repos/$name"
         touch "$CLAUDE_SRC"
-        echo "  created   $MYDIR/repos/$name/CLAUDE.md"
+        echo "  created   $MYCLAUDE_HOME/custom/repos/$name/CLAUDE.md"
     fi
 
     # Remove broken/wrong link or plain file, then symlink

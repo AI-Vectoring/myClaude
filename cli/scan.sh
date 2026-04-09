@@ -2,8 +2,7 @@
 
 set -e
 
-MYDIR="$HOME/git/myClaude"
-source "$MYDIR/myClaude.conf"
+source "$MYCLAUDE_HOME/myClaude.conf"
 
 if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     echo "Usage: myClaude scan"
@@ -19,7 +18,7 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     exit 0
 fi
 
-STATE_DIR="$MYDIR"
+STATE_DIR="$MYCLAUDE_HOME/workshop/internal"
 CURRENT="$STATE_DIR/.state.json"
 PREVIOUS="$STATE_DIR/.state.prev.json"
 TMPFILE=$(mktemp)
@@ -36,7 +35,7 @@ scan() {
 
         [[ -f "$dir/CLAUDE.md" ]] && has_claude="true"
         [[ -L "$dir/CLAUDE.md" ]] && is_linked="true"
-        [[ -f "$STATE_DIR/.flags/$name/do-not-include" ]] && do_not_include="true"
+        [[ -f "$MYCLAUDE_HOME/.flags/$name/do-not-include" ]] && do_not_include="true"
 
         [[ $first -eq 0 ]] && result+=","
         result+="{\"name\":\"$name\",\"has_claude\":$has_claude,\"is_linked\":$is_linked,\"do_not_include\":$do_not_include}"

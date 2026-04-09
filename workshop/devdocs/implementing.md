@@ -6,11 +6,11 @@ For developers extending or forking myClaude.
 
 ```
 myClaude/
-├── myClaude.sh          # Dispatcher — routes subcommands
 ├── myClaude.conf        # Configuration (GIT_ROOT, MYCLAUDE_HOME)
 ├── install.sh           # Bootstrap installer
 ├── CLAUDE.md            # Global Claude Code rules (symlinked from ~/.claude/CLAUDE.md)
-├── commands/            # One script per subcommand
+├── cli/                 # CLI entry point and one script per subcommand
+│   ├── myClaude.sh
 │   ├── newRepo.sh
 │   ├── scan.sh
 │   ├── repair.sh
@@ -28,9 +28,9 @@ myClaude/
 
 ## Adding a command
 
-1. Create `commands/<name>.sh` — handle `--help`, source `myClaude.conf` at the top
-2. Add a `<name>)` case to `myClaude.sh` dispatching to `$MYCLAUDE_HOME/commands/<name>.sh`
-3. Add the command to the help text in `myClaude.sh`
+1. Create `cli/<name>.sh` — handle `--help`, source `myClaude.conf` at the top
+2. Add a `<name>)` case to `cli/myClaude.sh` dispatching to `$MYCLAUDE_HOME/cli/<name>.sh`
+3. Add the command to the help text in `cli/myClaude.sh`
 4. Run `install.sh` to update `/usr/local/bin/myClaude`
 
 ## Configuration
