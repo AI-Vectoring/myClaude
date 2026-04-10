@@ -12,14 +12,15 @@ declare -A PATTERNS=(
   [m]="MCP(*)"
   [a]="Agent(*)"
   [f]="WebFetch(*)"
+  [g]="Bash(git *)"
 )
 
-KEYS=(r e b m a f)
+KEYS=(r e b m a f g)
 
 ACTION="${1:-status}"
 
 if [[ "$ACTION" != "status" && "$ACTION" != "sv" && -z "${PATTERNS[$ACTION]:-}" ]]; then
-  echo "Usage: bit <r|e|b|m|a|f|sv|status>" >&2
+  echo "Usage: bit <r|e|b|m|a|f|g|sv|status>" >&2
   exit 1
 fi
 

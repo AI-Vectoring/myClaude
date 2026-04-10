@@ -61,9 +61,9 @@ grn=$'\033[32m'
 ylw=$'\033[33m'
 red=$'\033[31m'
 sl=$'\033['"${brightness};${color}m"
-declare -A PERM_LABELS=( [Read]=Read [Edit]=Edit [Bash]=Bash [MCP]=MCP ["Agent(*)"]=Agent [WebFetch]=Fetch )
+declare -A PERM_LABELS=( [Read]=Read [Edit]=Edit [Bash]=Bash [MCP]=MCP ["Agent(*)"]=Agent [WebFetch]=Fetch ["Bash(git *)"]=Git )
 perms_parts=()
-for entry in Read Edit Bash MCP "Agent(*)" WebFetch; do
+for entry in Read Edit Bash MCP "Agent(*)" WebFetch "Bash(git *)"; do
   label="${PERM_LABELS[$entry]}"
   first="${label:0:1}"
   rest="${label:1}"
@@ -87,7 +87,7 @@ else
   spin_part="${ylw}${bold}S${ylw}pin"
 fi
 
-line3="  ${perms_parts[0]}${sl}  |  ${perms_parts[1]}${sl}  |  ${perms_parts[2]}${sl}  |  ${perms_parts[3]}${sl}  |  ${perms_parts[4]}${sl}  |  ${perms_parts[5]}${sl}  |  ${spin_part}"
+line3="  ${perms_parts[0]}${sl}  |  ${perms_parts[1]}${sl}  |  ${perms_parts[2]}${sl}  |  ${perms_parts[3]}${sl}  |  ${perms_parts[4]}${sl}  |  ${perms_parts[5]}${sl}  |  ${perms_parts[6]}${sl}  |  ${spin_part}"
 
 line1=$(printf '%s  |  ' "${fields[@]}")
 line1="${line1%  |  }"
