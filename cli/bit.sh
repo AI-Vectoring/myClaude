@@ -19,8 +19,8 @@ KEYS=(r e b m a f g)
 
 ACTION="${1:-status}"
 
-if [[ "$ACTION" != "status" && "$ACTION" != "sv" && -z "${PATTERNS[$ACTION]:-}" ]]; then
-  echo "Usage: bit <r|e|b|m|a|f|g|sv|status>" >&2
+if [[ "$ACTION" != "status" && "$ACTION" != "s" && -z "${PATTERNS[$ACTION]:-}" ]]; then
+  echo "Usage: bit <r|e|b|m|a|f|g|s|status>" >&2
   exit 1
 fi
 
@@ -145,7 +145,7 @@ if [[ "$ACTION" == "status" ]]; then
   exit 0
 fi
 
-if [[ "$ACTION" == "sv" ]]; then
+if [[ "$ACTION" == "s" ]]; then
   cycle_spinner
   exit 0
 fi
