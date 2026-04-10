@@ -66,9 +66,9 @@ grn=$'\033[32m'
 ylw=$'\033[33m'
 red=$'\033[31m'
 sl=$'\033['"${brightness};${color}m"
-declare -A PERM_LABELS=( [Read]=Read [Edit]=Edit [Bash]=Bash [MCP]=MCP ["Agent(*)"]=Agent [WebFetch]=Fetch ["Bash(git *)"]=Git )
+declare -A PERM_LABELS=( ["Read(*)"]=Read ["Edit(*)"]=Edit ["Bash(*)"]=Bash ["MCP(*)"]=MCP ["Agent(*)"]=Agent ["WebFetch(*)"]=Fetch ["Bash(git *)"]=Git )
 perms_parts=()
-for entry in Read Edit Bash MCP "Agent(*)" WebFetch "Bash(git *)"; do
+for entry in "Read(*)" "Edit(*)" "Bash(*)" "MCP(*)" "Agent(*)" "WebFetch(*)" "Bash(git *)"; do
   label="${PERM_LABELS[$entry]}"
   first="${label:0:1}"
   rest="${label:1}"
