@@ -43,14 +43,14 @@ cycle_spinner() {
   state=$(get_spinner_state)
   [[ ! -f "$CLAUDE_JSON" ]] && echo '{}' > "$CLAUDE_JSON"
   if [[ "$state" == "default" ]]; then
-    jq '.spinnerVerbs = {"mode": "replace", "verbs": ["Working", "Processing", "Analyzing", "Resolving"]}' \
+    jq '.spinnerVerbs = {"mode": "replace", "verbs": ["Working", "Processing", "Analyzing", "Resolving"]} | .prefersReducedMotion = true' \
       "$CLAUDE_JSON" > "${CLAUDE_JSON}.tmp"
     mv "${CLAUDE_JSON}.tmp" "$CLAUDE_JSON"
-    echo "Spinner: tame (replace)"
+    echo "Spinner: tame (replace, motion off)"
   else
-    jq 'del(.spinnerVerbs)' "$CLAUDE_JSON" > "${CLAUDE_JSON}.tmp"
+    jq 'del(.spinnerVerbs) | .prefersReducedMotion = false' "$CLAUDE_JSON" > "${CLAUDE_JSON}.tmp"
     mv "${CLAUDE_JSON}.tmp" "$CLAUDE_JSON"
-    echo "Spinner: wild (default)"
+    echo "Spinner: wild (default, motion on)"
   fi
 }
 
