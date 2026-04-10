@@ -89,7 +89,7 @@ fi
 if [[ "$spinner_mode" == "replace" ]]; then
   spin_part="${grn}${bold}S${grn}pin"
 else
-  spin_part="${ylw}${bold}S${ylw}pin"
+  spin_part="${red}${bold}S${red}pin"
 fi
 
 line3="  ${perms_parts[0]}${sl}  |  ${perms_parts[1]}${sl}  |  ${perms_parts[2]}${sl}  |  ${perms_parts[3]}${sl}  |  ${perms_parts[4]}${sl}  |  ${perms_parts[5]}${sl}  |  ${perms_parts[6]}${sl}  |  ${spin_part}"
