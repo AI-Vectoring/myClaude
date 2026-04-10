@@ -1,4 +1,9 @@
 #!/bin/bash
+# IMPORTANT: This file is the repo source, NOT the live file.
+# Claude Code's statusLine hook points to: ~/.claude/statusline-command.sh
+# That file is a SEPARATE COPY — edits here have no effect until synced.
+# To sync: cp /home/yosu/git/myClaude/custom/statusline-command.sh ~/.claude/statusline-command.sh
+# Or re-run: myClaude statusLine on   (re-registers the hook path — check settings.json after)
 input=$(cat)
 
 CONF_DIR="$(cd "$(dirname "$0")" && pwd)"
